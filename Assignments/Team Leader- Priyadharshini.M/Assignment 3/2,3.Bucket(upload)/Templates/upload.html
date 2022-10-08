@@ -1,6 +1,8 @@
-
 <html>
-   <body>
+ <head>
+      <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+   </head>
+   <body align="center">
 
 
 <a href="/">HOME</a>
@@ -10,7 +12,7 @@
 
 <h1>IBM Upload File</h1>
 
-      <form action = "/uploader" method = "POST"
+      <form action = "/uploader" align="center" method = "POST"
          enctype = "multipart/form-data">
 		 <input type = "text" placeholder="Enter bucket name" name = "bucket" />
 		 <br>
