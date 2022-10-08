@@ -3,11 +3,11 @@ import ibm_boto3
 from ibm_botocore.client import Config, ClientError
 
 COS_ENDPOINT = "https://s3.jp-tok.cloud-object-storage.appdomain.cloud"
-COS_API_KEY_ID = "HeLicT9-MU-xM1V8RIo97ZDffWX4KHTUmfQBhAh6fL_m"
-COS_INSTANCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/e8ca9836018a487ebdb4ce9eacc05850:e917cda3-783f-47aa-9b9f-5436b0a639b3::"
+COS_API_KEY_ID = "Gb2Ibm6SKfH8j6y3xYV7bmt6kHfcoO0U9eAY2ZnynTOJ"
+COS_INSTANCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/a66f94eca83743648377f2e317f30a5b:f062e68a-27f0-4e54-9e8f-dcf442704a5e::"
 
 # Create resource https://s3.ap.cloud-object-storage.appdomain.cloud
-cos = ibm_b.resource("s3",
+cos = ibm_boto3.resource("s3",
                          ibm_api_key_id=COS_API_KEY_ID,
                          ibm_service_instance_id=COS_INSTANCE_CRN,
                          config=Config(signature_version="oauth"),
@@ -64,7 +64,7 @@ def multi_part_upload(bucket_name, item_name, file_path):
         file_threshold = 1024 * 1024 * 15
 
         # set the transfer threshold and chunk size
-        transfer_config = .s3.transfer.TransferConfig(
+        transfer_config = ibm_boto3.s3.transfer.TransferConfig(
             multipart_threshold=file_threshold,
             multipart_chunksize=part_size
         )
@@ -86,8 +86,8 @@ def multi_part_upload(bucket_name, item_name, file_path):
 
 @app.route('/')
 def index():
-    files = get_bucket_contents('flask-test')
-    return render_template('index.html', files=files)
+    file1 = get_bucket_contents('flask-test')
+    return render_template('index.html', files=file1)
 
 
 @app.route('/deletefile', methods=['GET', 'POST'])
@@ -104,6 +104,7 @@ def deletefile():
 
 
 @app.route('/uploader', methods=['GET', 'POST'])
+
 def upload():
     if request.method == 'POST':
         bucket = request.form['bucket']
@@ -117,4 +118,4 @@ def upload():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8089, debug=True)
