@@ -86,7 +86,7 @@ def multi_part_upload(bucket_name, item_name, file_path):
 
 @app.route('/')
 def index():
-    file1 = get_bucket_contents('flask-test')
+    file1 = get_bucket_contents('bucket04')
     return render_template('index.html', files=file1)
 
 
