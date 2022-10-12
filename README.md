@@ -11,6 +11,8 @@ PAVITHRAPRIYA<br>
 
 <h2>Plasma Donor Application</h2>
 
+<img src="https://user-images.githubusercontent.com/112843167/195245288-da076b82-01ed-46f6-b457-a655901851e4.png" width="800" height="350"/>
+
 Plasma is the liquid portion of blood. About 55% of our blood is plasma, and the remaining 45% are red blood cells, white blood cells and platelets that are suspended in the plasma.Plasma is about 92% water. It also contains 7% vital proteins such as albumin, gamma globulin and anti-hemophilic factor, and 1% mineral salts, sugars, fats, hormones and vitamins.
 
 Plasma is commonly given to trauma, burn and shock patients, as well as people with severe liver disease or multiple clotting factor deficiencies. It helps boost the patient’s blood volume, which can prevent shock, and helps with blood clotting. 
