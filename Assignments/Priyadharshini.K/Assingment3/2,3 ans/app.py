@@ -1,23 +1,22 @@
-from flask import Flask,redirect,url_for,render_template,request
+from flask import Flask, redirect, url_for, render_template, request
 import ibm_boto3
 from ibm_botocore.client import Config, ClientError
 
-COS_ENDPOINT="https://s3.jp-tok.cloud-object-storage.appdomain.cloud"
-COS_API_KEY_ID="pahE_Gh5SEr5jVFi_MwrVWk3L2JYIZ5bOQ_OxVXmc2ua"
-COS_INSTANCE_CRN="crn:v1:bluemix:public:cloud-object-storage:global:a/e8de8656ace54bb3a53220a2f673830a:0f662e0d-b74c-4bca-b154-c1dd612186f4::"
-
-
+COS_ENDPOINT = "https://s3.jp-tok.cloud-object-storage.appdomain.cloud"
+#COS_API_KEY_ID = "Gb2Ibm6SKfH8j6y3xYV7bmt6kHfcoO0U9eAY2ZnynTOJ"
+COS_API_KEY_ID ="8Nhir2xigsiaMlw5LvTEwR-bYxfkWb7zeVZ0_xmaB6w4"
+COS_INSTANCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/2a0d32586ac743c88d171604f624c714:7aff50c2-0b4c-4121-849d-2739796590b0::"
+#COS_INSTANCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/a66f94eca83743648377f2e317f30a5b:f062e68a-27f0-4e54-9e8f-dcf442704a5e::"
 
 # Create resource https://s3.ap.cloud-object-storage.appdomain.cloud
 cos = ibm_boto3.resource("s3",
-    ibm_api_key_id=COS_API_KEY_ID,
-    ibm_service_instance_id=COS_INSTANCE_CRN,
-    config=Config(signature_version="oauth"),
-    endpoint_url=COS_ENDPOINT
-)
+                         ibm_api_key_id=COS_API_KEY_ID,
+                         ibm_service_instance_id=COS_INSTANCE_CRN,
+                         config=Config(signature_version="oauth"),
+                         endpoint_url=COS_ENDPOINT
+                         )
 
-app=Flask(__name__)
-
+app = Flask(__name__)
 
 
 def get_item(bucket_name, item_name):
@@ -57,7 +56,6 @@ def delete_item(bucket_name, object_name):
         print("Unable to delete object: {0}".format(e))
 
 
-
 def multi_part_upload(bucket_name, item_name, file_path):
     try:
         print("Starting file transfer for {0} to bucket: {1}\n".format(item_name, bucket_name))
@@ -87,37 +85,39 @@ def multi_part_upload(bucket_name, item_name, file_path):
     except Exception as e:
         print("Unable to complete multi-part upload: {0}".format(e))
 
-  
+
 @app.route('/')
 def index():
-    files = get_bucket_contents('flask-app-test')
-    return render_template('index.html', files = files)
+    file1 = get_bucket_contents('assbucket')
+    return render_template('index.html', files=file1)
 
-@app.route('/deletefile', methods = ['GET', 'POST'])
+
+@app.route('/deletefile', methods=['GET', 'POST'])
 def deletefile():
-   if request.method == 'POST':
-       bucket=request.form['bucket']
-       name_file=request.form['filename']
-       
-       delete_item(bucket,name_file)
-       return 'file deleted successfully'
-    
-   if request.method == 'GET':
-       return render_template('delete.html')
-        
-	
-@app.route('/uploader', methods = ['GET', 'POST'])
-def upload():
-   if request.method == 'POST':
-       bucket=request.form['bucket']
-       name_file=request.form['filename']
-       f = request.files['file']
-       multi_part_upload(bucket,name_file,f.filename)
-       return 'file uploaded successfully <a href="/">GO to Home</a>'
-       
-    
-   if request.method == 'GET':
-       return render_template('upload.html')
+    if request.method == 'POST':
+        bucket = request.form['bucket']
+        name_file = request.form['filename']
 
-if __name__=='__main__':
-    app.run(host='0.0.0.0',port=8080,debug=True)
+        delete_item(bucket, name_file)
+        return 'file deleted successfully'
+
+    if request.method == 'GET':
+        return render_template('delete.html')
+
+
+@app.route('/uploader', methods=['GET', 'POST'])
+
+def upload():
+    if request.method == 'POST':
+        bucket = request.form['bucket']
+        name_file = request.form['filename']
+        f = request.files['file']
+        multi_part_upload(bucket, name_file, f.filename)
+        return 'file uploaded successfully <a href="/">GO to Home</a>'
+
+    if request.method == 'GET':
+        return render_template('upload.html')
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
